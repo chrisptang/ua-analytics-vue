@@ -18,24 +18,9 @@
           monthlySearches:{{idea.keywordIdeaMetrics.avgMonthlySearches}}
           <p>
             <span v-for="monthlyVolume in idea.keywordIdeaMetrics.monthlySearchVolumes" :key="monthlyVolume.month" class="monthly-volume-item">
-              {{monthlyVolume.month}},{{monthlyVolume.year}}:{{monthlyVolume.monthlySearches}}
+              {{monthlyVolume.month}},{{monthlyVolume.year}}:&nbsp;{{monthlyVolume.monthlySearches}}; &nbsp;&nbsp;&nbsp;
             </span>
           </p>
-          <!-- <p class="p-price">
-            <span>{{ product.productNo }} / </span>
-            <span class="mark">{{ product.localPriceSign }}{{ product.primePriceRangeLocal[0] }}</span>
-          </p>
-          <p class="is-active">
-            <span>Is active: </span>
-            <span class="mark">{{ product.active ? 'Active' : 'Inactive' }}</span>
-          </p>
-          <p class="is-active">
-            <span>{{ product.categoryNames.join(' > ') }}</span>
-          </p>
-          <p class="is-active">
-            <span>NSFW Score: </span>
-            <span class="mark">{{ product.nsfwScore }}</span>
-          </p> -->
         </div>
       </div>
     </div>
@@ -138,8 +123,8 @@ a {
   padding-bottom: 2vw;
   padding-right: 1vw;
   padding-left: 1vw;
-  width: 200px;
-  max-width: 50%;
+  width: 100%;
+  /* max-width: 50%; */
   margin-right: 1vw;
 }
 
