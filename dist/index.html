@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peng's Vue App</title>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WC2S5CTPRG"></script>
+  <!-- Facebook Pixel Code -->
+
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '1006570106729671');
+    fbq('track', 'PageView');
+  </script>
+  <noscript>
+    <img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id={your-pixel-id-goes-here}&ev=PageView&noscript=1" />
+  </noscript>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-WC2S5CTPRG', { 'groups': 'group1', 'transport_type': 'beacon' });
+    gtag('config', 'UA-209872644-1', { 'groups': 'group1', 'transport_type': 'beacon', 'user_id': 'USER_ID123', 'optimize_id': 'OPT-WPPRZ8Q' });
+    gtag('config', 'AW-10803936837', { 'groups': 'group1', 'transport_type': 'beacon' });
+    gtag('set', { 'experiments': [{ 'id': 'a67bWfSUSI2_zfAYaIEqYw', 'variant': '' + Math.floor(Math.random() * 3) }] });
+  </script>
+  <div id="fb-root"></div>
+  <script async defer crossorigin="anonymous"
+    src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v14.0&appId=3217474618497260&autoLogAppEvents=1"
+    nonce="5eW17csb"></script>
+  <script type="module" crossorigin src="/assets/index.fdff955d.js"></script>
+  <link rel="stylesheet" href="/assets/index.fcd3ea84.css">
+</head>
+
+<body>
+  <div id="app"></div>
+  
+  <!-- Event snippet for wholeeshopping web purchase conversion page
+In your html page, add the snippet and call gtag_report_conversion when someone clicks on the chosen link or button. -->
+  <script>
+    function gtag_report_conversion(url) {
+      var callback = function () {
+        if (typeof (url) != 'undefined') {
+          window.location = url;
+        }
+      };
+      gtag('event', 'conversion', {
+        'send_to': 'AW-10803936837/T2TeCIn3o5QDEMX8258o',
+        'value': 1.0,
+        'currency': 'USD',
+        'transaction_id': '',
+        'event_callback': callback
+      });
+      return false;
+    }
+  </script>
+
+  <script>
+    function sendPurchase() {
+      console.log("sending purchase ...");
+      gtag("event", "purchase", {
+        send_to: "group1",
+        transaction_id: "T_12345",
+        value: 25.42,
+        currency: "USD",
+        items: [
+          {
+            item_id: "SKU_12345",
+            item_name: "Stan and Friends Tee",
+            currency: "USD",
+            index: 0,
+            item_brand: "Wholee",
+            item_variant: "green",
+            price: 9.99,
+            quantity: 1
+          },
+          {
+            item_id: "SKU_12346",
+            item_name: "Google Grey Women's TeeGoogle Grey Women's TeeGoogle Grey Women's TeeGoogle Grey Women's TeeGoogle Grey Women's TeeGoogle Grey Women's TeeGoogle Grey Women's Tee",
+            currency: "USD",
+            discount: 3.33,
+            index: 1,
+            item_brand: "Wholee",
+            item_variant: "gray",
+            price: 20.99,
+            quantity: 1
+          }]
+      });
+      fbq('track', 'Purchase', { currency: "USD", value: 30.00 });
+    }
+    function sendAddCart() {
+      console.log("sending add_cart...");
+      fbq('track', 'AddToCart',
+        // begin required parameter object
+        {
+          value: .5,
+          currency: 'USD',
+          content_type: 'product', // required property
+          content_ids: '201' // required property, if not using 'contents' property
+        }
+        // end required parameter object
+      );
+
+      gtag("event", "add_to_cart", {
+        send_to: 'group1',
+        items: [
+          {
+            item_id: "SKU_12345",
+            item_name: "Stan and Friends Tee",
+            currency: "USD",
+            index: 0,
+            item_brand: "Wholee",
+            item_variant: "green",
+            price: 9.99,
+            quantity: 1
+          }
+        ]
+      });
+    }
+    sendAddCart();
+    sendPurchase();
+    // setTimeout(sendAddCart, 2000);
+    // setTimeout(sendPurchase, 8000);
+  </script>
+</body>
+
+</html>
