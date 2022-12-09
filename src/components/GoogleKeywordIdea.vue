@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid mt-4">
+  <div class="container-fluid mt-4 keyword-idea">
     <div>
       <h1 class="h1">Google Keyword Idea</h1>
     </div>
@@ -9,16 +9,27 @@
     </div>
     <div>
       <div class="table table-striped product-all">
+        <div :style="`display:${this.loading ? 'block' : 'none'}`">loading ...</div>
+        <div :style="`display:${this.noResult && this.keywords.length > 1 ? 'block' : 'none'}`">No result for query: {{
+            this.keywords
+        }}</div>
         <div v-for="idea in keywordIdeas" :key="idea.text" class="product-item">
-          <a class="product-item-link-short" target="_blank"
-            :href="`https://www.google.com/search?tbm=shop&hl=en&psb=1&q=${encodeURIComponent(idea.text)}&sclient=products-cc`" :title="`${idea.text}`">
-            <p class="p-title"><span>{{ idea.text.substring(0, 100) + "..." }}</span></p>
-          </a>
-          competition:{{idea.keywordIdeaMetrics.competition}},
-          monthlySearches:{{idea.keywordIdeaMetrics.avgMonthlySearches}}
+          <p class="p-title">
+            <a class="product-item-link-short" target="_blank"
+              :href="`https://www.google.com/search?tbm=shop&hl=en&psb=1&q=${encodeURIComponent(idea.text)}&sclient=products-cc`"
+              :title="`${idea.text}`">
+              <span>{{ idea.text }}</span>,&nbsp;&nbsp;&nbsp;
+            </a>
+            competition:<span :class="`competition-${idea.keywordIdeaMetrics.competition}`">&nbsp;{{
+                idea.keywordIdeaMetrics.competition
+            }},</span>
+            &nbsp;&nbsp;monthlySearches:<span>&nbsp;{{ idea.keywordIdeaMetrics.avgMonthlySearches }}</span>
+          </p>
           <p>
-            <span v-for="monthlyVolume in idea.keywordIdeaMetrics.monthlySearchVolumes" :key="monthlyVolume.month" class="monthly-volume-item">
-              {{monthlyVolume.month}},{{monthlyVolume.year}}:&nbsp;{{monthlyVolume.monthlySearches}}; &nbsp;&nbsp;&nbsp;
+            <span v-for="monthlyVolume in idea.keywordIdeaMetrics.monthlySearchVolumes" :key="monthlyVolume.month"
+              class="monthly-volume-item">
+              {{ monthlyVolume.month }},{{ monthlyVolume.year }}:&nbsp;{{ monthlyVolume.monthlySearches }};
+              &nbsp;&nbsp;&nbsp;
             </span>
           </p>
         </div>
@@ -35,6 +46,7 @@ export default {
       keywordIdeas: [],
       keywords: "",
       loading: false,
+      noResult: false,
       model: { q: null },
       client_basic: { "country_code": "us", "language_code": "en-US", "guest_id": "9053ad00-dabd-4d6a-9943-c7b9ba427c40", "from_site": "m_wholee", "_ga": "GA1.1.654113294.1658837179", "device_id": "139145565.1658837180", "test": "1", "cid": "290463692.1658837179" }
     };
@@ -67,27 +79,25 @@ export default {
       let encodeKeywords = encodeURIComponent(this.keywords);
       let resp = await fetch(`/marketing-api/keywordIdea/planing?keyword=${encodeKeywords}`, { mode: 'cors' });
       let idea_list = await resp.json();
-      this.keywordIdeas = idea_list;
       this.loading = false;
-
-      // this.products.rows = [];
-      // const header = { header: { 'client-basic': JSON.stringify(this.client_basic) } };
-      // for (let i = 0; i < this.productIdList.length; i++) {
-      //   let pid = this.productIdList[i];
-      //   let resp = await fetch(`https://www.wholeeshopping.com/gw/cf-detail/api/v2/product/info?productId=${pid}`, header);
-      //   let product = await resp.json();
-      //   product = product.body
-      //   product.categoryNames = product.categoryNames.reverse();
-      //   console.log(product.categoryNames);
-      //   await this.nsfwDetect(product);
-      //   this.products.rows.push(product);
-      // }
+      if (idea_list && idea_list.length > 0) {
+        idea_list.forEach(it => {
+          if (!it.keywordIdeaMetrics.competition) {
+            it.keywordIdeaMetrics.competition = "LOW";
+          }
+        });
+      }
+      this.keywordIdeas = idea_list;
+      // console.log(idea_list[0]);
+      if (!idea_list || idea_list.length <= 0 || !idea_list[0].keywordIdeaMetrics.competition) {
+        this.noResult = true;
+      } else {
+        this.noResult = false;
+      }
     }
   }
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style>
 h1,
 h2 {
@@ -108,34 +118,39 @@ a {
   color: #35495e;
 }
 
-.product-all {
+.keyword-idea .product-all {
   margin-top: 10px;
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  flex-wrap: wrap;
   font-size: 12px;
-  justify-content: flex-start;
+  display: block;
 }
 
-.product-item {
+.keyword-idea .product-item {
   box-sizing: border-box;
-  padding-bottom: 2vw;
-  padding-right: 1vw;
-  padding-left: 1vw;
+  padding: 0.5vw;
   width: 100%;
-  /* max-width: 50%; */
+  max-width: 100%;
   margin-right: 1vw;
+  border-bottom: 1px solid #998899;
 }
 
-.cat-image {
-  width: 200px;
-  height: 200px;
-  object-fit: contain;
+.keyword-idea .p-title a {
+  color: cornflowerblue;
+  font-size: larger;
+  font-weight: bolder;
 }
 
-.mark {
-  color: brown;
+.competition-HIGH {
+  color: red;
+  font-weight: bolder;
+}
+
+.competition-LOW {
+  color: darkgreen;
+  font-weight: bolder;
+}
+
+.competition-MEDIUM {
+  color: yellowgreen;
   font-weight: bolder;
 }
 </style>
