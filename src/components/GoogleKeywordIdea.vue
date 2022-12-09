@@ -82,8 +82,12 @@ export default {
       this.loading = false;
       if (idea_list && idea_list.length > 0) {
         idea_list.forEach(it => {
+          if (!it.keywordIdeaMetrics) {
+            it.keywordIdeaMetrics = { competition: "LOW", monthlySearchVolumes: [] }
+          }
           if (!it.keywordIdeaMetrics.competition) {
             it.keywordIdeaMetrics.competition = "LOW";
+            console.log(it)
           }
         });
       }
