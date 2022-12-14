@@ -23,12 +23,12 @@
             competition:<span :class="`competition-${idea.keywordIdeaMetrics.competition}`">&nbsp;{{
                 idea.keywordIdeaMetrics.competition
             }},</span>
-            &nbsp;&nbsp;monthlySearches:<span>&nbsp;{{ idea.keywordIdeaMetrics.avgMonthlySearches }}</span>
+            &nbsp;&nbsp;monthlySearches(1 year):<span style="color:blueviolet;font-weight: bolder;">&nbsp;{{ idea.keywordIdeaMetrics.avgMonthlySearches }}</span>
           </p>
           <p>
             <span v-for="monthlyVolume in idea.keywordIdeaMetrics.monthlySearchVolumes" :key="monthlyVolume.month"
               class="monthly-volume-item">
-              {{ monthlyVolume.month }},{{ monthlyVolume.year }}:&nbsp;{{ monthlyVolume.monthlySearches }};
+              <span style="color:darkgray;font-size:smaller">{{ monthlyVolume.month.substring(0,3) }} {{ monthlyVolume.year }}</span>:<span>&nbsp;{{ monthlyVolume.monthlySearches }};</span>
               &nbsp;&nbsp;&nbsp;
             </span>
           </p>
