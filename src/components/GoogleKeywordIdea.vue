@@ -23,12 +23,16 @@
             competition:<span :class="`competition-${idea.keywordIdeaMetrics.competition}`">&nbsp;{{
                 idea.keywordIdeaMetrics.competition
             }},</span>
-            &nbsp;&nbsp;monthlySearches(1 year):<span style="color:blueviolet;font-weight: bolder;">&nbsp;{{ idea.keywordIdeaMetrics.avgMonthlySearches }}</span>
+            &nbsp;&nbsp;monthlySearches(1 year):<span style="color:blueviolet;font-weight: bolder;">&nbsp;{{
+                idea.keywordIdeaMetrics.avgMonthlySearches
+            }}</span>
           </p>
           <p>
             <span v-for="monthlyVolume in idea.keywordIdeaMetrics.monthlySearchVolumes" :key="monthlyVolume.month"
               class="monthly-volume-item">
-              <span style="color:darkgray;font-size:smaller">{{ monthlyVolume.month.substring(0,3) }} {{ monthlyVolume.year }}</span>:<span>&nbsp;{{ monthlyVolume.monthlySearches }};</span>
+              <span style="color:darkgray;font-size:smaller">{{ monthlyVolume.month.substring(0, 3) }} {{
+                  monthlyVolume.year
+              }}</span>:<span>&nbsp;{{ monthlyVolume.monthlySearches }};</span>
               &nbsp;&nbsp;&nbsp;
             </span>
           </p>
@@ -83,14 +87,17 @@ export default {
       if (idea_list && idea_list.length > 0) {
         idea_list.forEach(it => {
           if (!it.keywordIdeaMetrics) {
-            it.keywordIdeaMetrics = { competition: "LOW", monthlySearchVolumes: [] }
+            it.keywordIdeaMetrics = { competition: "LOW", avgMonthlySearches: 0, monthlySearchVolumes: [] }
           }
           if (!it.keywordIdeaMetrics.competition) {
-            it.keywordIdeaMetrics.competition = "LOW";
+            it.keywordIdeaMetrics = { competition: "LOW", avgMonthlySearches: 0 };
             console.log(it)
           }
         });
       }
+      idea_list.sort((o1, o2) => {
+        return o2.keywordIdeaMetrics.avgMonthlySearches - o1.keywordIdeaMetrics.avgMonthlySearches;
+      });
       this.keywordIdeas = idea_list;
       // console.log(idea_list[0]);
       if (!idea_list || idea_list.length <= 0 || !idea_list[0].keywordIdeaMetrics.competition) {
