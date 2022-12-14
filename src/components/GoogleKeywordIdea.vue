@@ -56,6 +56,7 @@ export default {
     };
   },
   async created() {
+    document.title = "Peng's Google Keyword Idea Tool";
     // let localIds = localStorage.getItem("product_id_list");
     // if (localIds) {
     //   this.productIdList = JSON.parse(localIds);
